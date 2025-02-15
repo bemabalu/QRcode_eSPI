@@ -8,17 +8,19 @@ QRcode_eSPI::QRcode_eSPI(TFT_eSPI *display) {
 }
 
 
-void QRcode_eSPI::init() {
+void QRcode_eSPI::init(uint16_t size, uint16_t xoffset, uint16_t yoffset) {
     //display->init();
     this->screenwidth = display->width();
     this->screenheight = display->height();
-    display->fillScreen(TFT_WHITE);
-    int min = screenwidth;
-    if (screenheight<screenwidth)
-        min = screenheight;
-    multiply = min/WD;
-    offsetsX = (screenwidth-(WD*multiply))/2;
-    offsetsY = (screenheight-(WD*multiply))/2;
+    display->fillScreen(TFT_BLACK);
+    if (!size){
+        size = screenwidth;
+        if (screenheight<screenwidth)
+            size = screenheight;
+    }
+    multiply = size/WD;
+    offsetsX = (screenwidth-(WD*multiply))/2+xoffset;
+    offsetsY = (screenheight-(WD*multiply))/2+yoffset;
 }
 
 void QRcode_eSPI::create(String message) {
@@ -28,7 +30,8 @@ void QRcode_eSPI::create(String message) {
 }
 
 void QRcode_eSPI::screenwhite() {
-    display->fillScreen(TFT_WHITE);
+    //display->fillScreen(TFT_WHITE );
+    display->fillRect(offsetsX-multiply,offsetsY-multiply,(WD+2)*multiply,(WD+2)*multiply,TFT_WHITE);
 }
 
 void QRcode_eSPI::screenupdate() {

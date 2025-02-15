@@ -19,7 +19,7 @@ class QRcode_eSPI : public QRcodeDisplay
 		
 		QRcode_eSPI(TFT_eSPI *display);
 		void create(String message);
-		void init();
+		void init(uint16_t size=0, uint16_t xoffset=0, uint16_t yoffset=0);
 		void screenwhite();
 		void screenupdate();
 };
